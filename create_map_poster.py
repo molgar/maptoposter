@@ -214,13 +214,14 @@ def get_coordinates(city, country):
         raise ValueError(f"Could not find coordinates for {city}, {country}")
 
 def create_poster(city, country, point, dist, output_file):
+    network_type = os.environ.get("MAPTOP_POSTER_NETWORK", "drive")
     print(f"\nGenerating map for {city}, {country}...")
     
     # Progress bar for data fetching
     with tqdm(total=3, desc="Fetching map data", unit="step", bar_format='{l_bar}{bar}| {n_fmt}/{total_fmt}') as pbar:
         # 1. Fetch Street Network
         pbar.set_description("Downloading street network")
-        G = ox.graph_from_point(point, dist=dist, dist_type='bbox', network_type='all')
+        G = ox.graph_from_point(point, dist=dist, dist_type='bbox', network_type=network_type)
         pbar.update(1)
         time.sleep(0.5)  # Rate limit between requests
         
