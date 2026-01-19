@@ -11,6 +11,12 @@ import os
 from datetime import datetime
 import argparse
 
+# OSMnx/Overpass can hang on slow responses; keep requests bounded
+try:
+    ox.settings.requests_timeout = 60
+except Exception:
+    pass
+
 THEMES_DIR = "themes"
 FONTS_DIR = "fonts"
 POSTERS_DIR = "posters"
